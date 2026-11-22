@@ -3,71 +3,129 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>EcoInvest — ИИ-консультант</title>
+<meta name="theme-color" content="#1d3a2f">
+<title>Анна · EcoInvest Bali</title>
 <style>
-  :root{--green:#1d3a2f;--sage:#d9e4c8;--paper:#f6f3ec;--ink:#1d2a24;--muted:#6b7a70;--line:#e2ddd2}
-  *{box-sizing:border-box}
+  :root{--green:#1d3a2f;--green2:#2c4f40;--sage:#d9e4c8;--paper:#f6f3ec;--ink:#1d2a24;--muted:#6b7a70;--line:#e2ddd2;--gold:#c9a96e}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;height:100%;background:var(--paper);color:var(--ink);font:16px/1.45 -apple-system,BlinkMacSystemFont,"Inter","Segoe UI",sans-serif}
-  .app{max-width:720px;margin:0 auto;height:100dvh;display:flex;flex-direction:column}
-  header{background:var(--green);color:#f6f3ec;padding:18px 20px 16px}
-  header .brand{font-size:13px;letter-spacing:.04em;opacity:.75}
-  header h1{margin:4px 0 2px;font-size:22px;font-weight:600;letter-spacing:-.01em}
-  header .status{font-size:13px;color:var(--sage)}
-  header .status::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:#9fd18b;margin-right:6px;vertical-align:1px}
-  #log{flex:1;overflow-y:auto;padding:20px 16px 8px;display:flex;flex-direction:column;gap:10px}
-  .msg{max-width:85%;padding:11px 14px;border-radius:16px;white-space:pre-wrap;word-wrap:break-word}
-  .bot{background:#fff;border:1px solid var(--line);align-self:flex-start;border-bottom-left-radius:4px}
-  .me{background:var(--green);color:#f6f3ec;align-self:flex-end;border-bottom-right-radius:4px}
-  .typing{color:var(--muted);font-style:italic}
-  .chips{display:flex;gap:8px;flex-wrap:wrap;padding:0 16px 10px}
-  .chips button{border:1px solid var(--green);background:transparent;color:var(--green);border-radius:999px;padding:7px 12px;font:inherit;font-size:14px;cursor:pointer}
+  .app{max-width:720px;margin:0 auto;height:100dvh;display:flex;flex-direction:column;background:var(--paper)}
+  header{position:relative;color:#f6f3ec;padding:16px 18px;display:flex;gap:12px;align-items:center;background:linear-gradient(rgba(20,40,32,.78),rgba(20,40,32,.92)),url(img/minori-night.jpg) center/cover}
+  .ava{width:46px;height:46px;border-radius:50%;background:var(--gold);color:var(--green);display:grid;place-items:center;font-weight:700;font-size:20px;flex:none;position:relative}
+  .ava::after{content:"";position:absolute;right:1px;bottom:1px;width:11px;height:11px;border-radius:50%;background:#7fd36b;border:2px solid var(--green)}
+  header h1{margin:0;font-size:18px;font-weight:600}
+  header .sub{font-size:13px;opacity:.85}
+  header .brand{margin-left:auto;font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.7;text-align:right}
+  #log{flex:1;overflow-y:auto;padding:18px 14px 6px;display:flex;flex-direction:column;gap:8px;scroll-behavior:smooth}
+  .msg{max-width:84%;padding:10px 14px;border-radius:18px;white-space:pre-wrap;word-wrap:break-word;animation:in .18s ease-out}
+  @keyframes in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .bot{background:#fff;border:1px solid var(--line);align-self:flex-start;border-bottom-left-radius:6px}
+  .me{background:var(--green);color:#f6f3ec;align-self:flex-end;border-bottom-right-radius:6px}
+  .dots{display:inline-flex;gap:4px;padding:4px 2px}
+  .dots i{width:7px;height:7px;border-radius:50%;background:#9aa79d;animation:b 1s infinite}
+  .dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
+  @keyframes b{0%,60%,100%{opacity:.3;transform:none}30%{opacity:1;transform:translateY(-3px)}}
+  .card{align-self:flex-start;width:min(320px,84%);background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;animation:in .25s ease-out}
+  .card .ph{height:150px;background:var(--green2) center/cover;position:relative}
+  .card .ph.np{display:flex;align-items:flex-end;padding:12px;color:var(--sage);font-weight:600;background:linear-gradient(135deg,#2c4f40,#1d3a2f)}
+  .card .tag{position:absolute;left:10px;top:10px;background:rgba(246,243,236,.92);color:var(--green);font-size:12px;font-weight:600;padding:3px 8px;border-radius:99px}
+  .card .bd{padding:12px 14px 14px}
+  .card .t{font-weight:600}
+  .card .s{font-size:14px;color:var(--muted);margin:2px 0 8px}
+  .card .p{font-size:24px;font-weight:700;color:var(--green);letter-spacing:-.01em}
+  .card .f{font-size:13px;color:var(--ink);margin-top:2px}
+  .card .n{font-size:12px;color:var(--muted);margin-top:8px}
+  .card .acts{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+  .card .acts button{flex:1;border:1px solid var(--green);background:#fff;color:var(--green);border-radius:12px;padding:8px 6px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+  .card .acts button.pr{background:var(--green);color:#f6f3ec}
+  .chips{display:flex;gap:6px;flex-wrap:wrap;align-self:flex-start;max-width:92%;animation:in .25s ease-out}
+  .chips button{border:1px solid var(--green);background:transparent;color:var(--green);border-radius:999px;padding:7px 13px;font:inherit;font-size:14px;cursor:pointer}
+  .chips button:active,.card .acts button:active{transform:scale(.97)}
   form{display:flex;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:var(--paper)}
-  textarea{flex:1;resize:none;border:1px solid var(--line);border-radius:14px;padding:11px 13px;font:inherit;background:#fff;max-height:120px}
-  form button{border:0;background:var(--green);color:#f6f3ec;border-radius:14px;padding:0 18px;font:inherit;font-weight:600;cursor:pointer}
-  form button:disabled{opacity:.5}
-  .note{font-size:12px;color:var(--muted);text-align:center;padding:0 16px 8px}
+  textarea{flex:1;resize:none;border:1px solid var(--line);border-radius:22px;padding:11px 15px;font:inherit;background:#fff;max-height:120px;outline:none}
+  textarea:focus{border-color:var(--green)}
+  form button{width:46px;height:46px;flex:none;border:0;background:var(--green);color:#f6f3ec;border-radius:50%;font-size:20px;cursor:pointer}
+  form button:disabled{opacity:.45}
+  .note{font-size:11px;color:var(--muted);text-align:center;padding:2px 16px 0}
 </style>
 </head>
 <body>
 <div class="app">
   <header>
-    <div class="brand">EcoInvest Group · Bali</div>
-    <h1>ИИ-консультант</h1>
-    <div class="status">на связи 24/7 · RU / EN</div>
+    <div class="ava">А</div>
+    <div><h1>Анна · EcoInvest</h1><div class="sub" id="sub">ИИ-консультант · онлайн 24/7</div></div>
+    <div class="brand">Bali<br>Villas</div>
   </header>
   <div id="log"></div>
-  <div class="chips" id="chips">
-    <button>Какие виллы сейчас свободны?</button>
-    <button>Сколько можно зарабатывать на сдаче?</button>
-    <button>Как устроено владение для иностранца?</button>
-    <button>Write in English</button>
-  </div>
-  <div class="note">Демо для коммерческого предложения. Условия сделки подтверждает менеджер EcoInvest.</div>
+  <div class="note">Демо ИИ-консультанта для EcoInvest. Наличие и условия подтверждает менеджер.</div>
   <form id="f">
-    <textarea id="t" rows="1" placeholder="Задайте вопрос о виллах…" maxlength="1500"></textarea>
-    <button id="b">→</button>
+    <textarea id="t" rows="1" placeholder="Сообщение…" maxlength="1500"></textarea>
+    <button id="b" aria-label="Отправить">↑</button>
   </form>
 </div>
 <script>
-const log=document.getElementById('log'),t=document.getElementById('t'),b=document.getElementById('b'),chips=document.getElementById('chips');
-const history=[];let API='';const ready=fetch('config.json?'+Date.now()).then(r=>r.json()).then(c=>{API=c.api||''}).catch(()=>{});
-function add(text,who){const d=document.createElement('div');d.className='msg '+who;d.textContent=text;log.appendChild(d);log.scrollTop=log.scrollHeight;return d}
-add('Здравствуйте! Я консультант EcoInvest. Расскажу о виллах на Бали, помогу выбрать и посчитать доходность. Что вас интересует?','bot');
+const VILLAS={
+ 'minori-9':{img:'img/minori-2br.webp',tag:'Minori · Семиньяк',t:'Вилла № 9 · 2 спальни',s:'Дом 99,1 м², участок 140 м², свой бассейн',p:'$299 000',f:'Взнос 30% — $89 700, остаток без процентов'},
+ 'minori-10':{img:'img/minori-2br.webp',tag:'Minori · Семиньяк',t:'Вилла № 10 · 2 спальни',s:'Дом 99,1 м², участок 140 м², свой бассейн',p:'$299 000',f:'Взнос 30% — $89 700, остаток без процентов'},
+ 'minori-2':{img:'img/minori-living.jpg',tag:'Minori · Семиньяк',t:'Вилла № 2 · 2 спальни',s:'Дом 103,8 м², участок 139 м², свой бассейн',p:'$309 000',f:'Взнос 30% — $92 700, остаток без процентов'},
+ 'minori-1':{img:'img/minori-living.jpg',tag:'Minori · Семиньяк',t:'Вилла № 1 · 2 спальни',s:'Дом 118,5 м², участок 187 м², свой бассейн',p:'$320 000',f:'Взнос 30% — $96 000, остаток без процентов'},
+ 'minori-6':{img:'img/minori-4br.webp',tag:'Minori · Семиньяк',t:'Вилла № 6 · 4 спальни',s:'Дом 208,5 м², участок 427 м², свой бассейн',p:'$527 000',f:'Взнос 30% — $158 100, остаток без процентов'},
+ 'minori-3':{img:'img/minori-4br.webp',tag:'Minori · Семиньяк',t:'Вилла № 3 · 4 спальни',s:'Дом 231,3 м², участок 339 м², свой бассейн',p:'$600 000',f:'Взнос 30% — $180 000, остаток без процентов'},
+ 'minori-4':{img:'img/minori-5br.webp',tag:'Minori · Семиньяк',t:'Вилла № 4 · 5 спален',s:'Дом 356,5 м², участок 503 м², свой бассейн',p:'$665 900',f:'Взнос 30% — $199 770, остаток без процентов'},
+ 'seminyak-studio':{tag:'Seminyak Residences',t:'Студия',s:'23 м², руфтоп с баром и бассейном',p:'$75 000–82 500',f:'Взнос 30%, 70% без процентов до мая 2028'},
+ 'seminyak-apt':{tag:'Seminyak Residences',t:'Апартаменты · 1 спальня',s:'30–33 м², руфтоп с баром и бассейном',p:'$85 000–95 700',f:'Взнос 30%, 70% без процентов до мая 2028'},
+ 'seminyak-villa':{tag:'Seminyak Residences',t:'Вилла · 1 спальня',s:'Zarya 77 м² или Venera 80 м²',p:'от $160 000',f:'Взнос 30%'},
+ 'seminyak-solis':{tag:'Seminyak Residences',t:'Вилла Solis · 2 спальни',s:'136 м²',p:'$250 000',f:'Взнос 30%'},
+ 'aurora-villa':{img:'img/aurora.webp',tag:'Aurora · Санур, первая линия',t:'Вилла · 2 спальни',s:'Дом 143 м², сад 235 м², бассейн 7×3 м',p:'$560 000',f:'Курорт на 93 юнита у океана'},
+ 'aurora-studio':{img:'img/aurora.webp',tag:'Aurora · Санур, первая линия',t:'Студия',s:'35 м²',p:'$150 000–180 000',f:'Депозит $5 000, бронь на 2 месяца'},
+ 'aurora-apt':{img:'img/aurora.webp',tag:'Aurora · Санур, первая линия',t:'Апартаменты · 1 спальня',s:'70 м²',p:'$250 000–280 000',f:'Депозит $5 000, бронь на 2 месяца'}
+};
+const log=document.getElementById('log'),t=document.getElementById('t'),b=document.getElementById('b');
+const history=[];let API='',busy=false;
+const ready=fetch('config.json?'+Date.now()).then(r=>r.ok?r.json():{}).then(c=>{API=(c&&c.api)||''}).catch(()=>{});
+const scroll=()=>{log.scrollTop=log.scrollHeight};
+function el(cls,html){const d=document.createElement('div');d.className=cls;if(html!=null)d.innerHTML=html;log.appendChild(d);scroll();return d}
+function esc(s){return s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
+function clean(s){return s.replace(/\[\[[^\]]*\]\]/g,'').replace(/\[\[[^\]]*$/,'').replace(/\[$/,'').replace(/\n{3,}/g,'\n\n').trim()}
+function clearChips(){log.querySelectorAll('.chips').forEach(c=>c.remove())}
+function chips(list){if(!list.length)return;const d=el('chips');list.forEach(x=>{const k=document.createElement('button');k.textContent=x;k.onclick=()=>send(x);d.appendChild(k)})}
+function card(id){const v=VILLAS[id];if(!v)return;const d=el('card');
+  d.innerHTML=(v.img?`<div class="ph" style="background-image:url(${v.img})"><span class="tag">${v.tag}</span></div>`:`<div class="ph np">${v.tag}</div>`)+
+  `<div class="bd"><div class="t">${v.t}</div><div class="s">${v.s}</div><div class="p">${v.p}</div><div class="f">${v.f}</div><div class="n">Цена по материалам EcoInvest. Наличие подтверждает менеджер.</div>
+  <div class="acts"><button class="pr">Посчитать доход</button><button>Инвест-пакет</button></div></div>`;
+  const [a1,a2]=d.querySelectorAll('.acts button');
+  a1.onclick=()=>send(`Посчитайте, сколько может приносить ${v.t.toLowerCase()} (${v.tag})`);
+  a2.onclick=()=>send(`Хочу инвест-пакет по варианту: ${v.t} (${v.tag})`);}
+function finish(raw){const ids=[...raw.matchAll(/\[\[card:([a-z0-9-]+)\]\]/g)].map(m=>m[1]).slice(0,2);ids.forEach(card);
+  const m=raw.match(/\[\[chips:([^\]]*)\]\]/);chips(m?m[1].split('|').map(s=>s.trim()).filter(Boolean).slice(0,3):[]);}
 async function send(text){
-  text=text.trim(); if(!text) return;
-  chips.style.display='none'; add(text,'me'); history.push({role:'user',content:text});
-  t.value=''; b.disabled=true; const w=add('Консультант печатает…','bot typing');
+  text=(text||'').trim(); if(!text||busy) return;
+  busy=true;b.disabled=true;clearChips();
+  el('msg me').textContent=text; history.push({role:'user',content:text}); t.value='';
+  const w=el('msg bot','<span class="dots"><i></i><i></i><i></i></span>');
+  let raw='';
   try{
-    await ready;const r=await fetch(API+'/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:history})});
-    const j=await r.json(); w.remove();
-    if(j.reply){add(j.reply,'bot');history.push({role:'assistant',content:j.reply})}
-    else add(j.error||'Ошибка. Попробуйте ещё раз.','bot');
-  }catch(e){w.remove();add('Нет связи. Попробуйте ещё раз.','bot')}
-  b.disabled=false; t.focus();
+    await ready;
+    const r=await fetch(API+'/api/chat/stream',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:history})});
+    if(!r.ok||!r.body){const j=await r.json().catch(()=>({}));throw new Error(j.error||'')}
+    const rd=r.body.getReader(),dec=new TextDecoder();let buf='',err='';
+    for(;;){const {value,done}=await rd.read();if(done)break;buf+=dec.decode(value,{stream:true});
+      let i;while((i=buf.indexOf('\n\n'))>=0){const ln=buf.slice(0,i);buf=buf.slice(i+2);if(!ln.startsWith('data: '))continue;
+        const ev=JSON.parse(ln.slice(6));if(ev.t){raw+=ev.t;const c=clean(raw);if(c){w.textContent=c;scroll()}}if(ev.error)err=ev.error;}}
+    if(!raw)throw new Error(err);
+    const c=clean(raw);w.textContent=c||'…';history.push({role:'assistant',content:raw});finish(raw);
+  }catch(e){w.textContent=e.message||'Связь прервалась. Напишите ещё раз — я на месте.';history.pop()}
+  busy=false;b.disabled=false;scroll();
 }
+// приветствие с учётом времени на Бали (UTC+8)
+(function(){const h=(new Date().getUTCHours()+8)%24,mm=String(new Date().getUTCMinutes()).padStart(2,'0');
+  const late=h>=18||h<9;const en=!/^ru|^uk|^be|^kk/i.test(navigator.language||'ru');
+  const g=en?`Hi! I'm Anna from EcoInvest 🌴 ${late?`It's ${h}:${mm} in Bali — the office is closed, but I'm here.`:`It's ${h}:${mm} in Bali.`} I'll help you pick a villa and run the numbers. Are you looking for yourself or as an investment?`
+           :`Здравствуйте! Я Анна, консультант EcoInvest 🌴 ${late?`На Бали сейчас ${h}:${mm}, офис уже закрыт, а я на связи.`:`На Бали сейчас ${h}:${mm}.`} Помогу подобрать виллу и посчитать доход. Вы смотрите для себя или под сдачу?`;
+  el('msg bot').textContent=g;history.push({role:'assistant',content:g});
+  chips(en?['As an investment','For myself','Just browsing']:['Под сдачу','Для себя','Пока присматриваюсь']);})();
 document.getElementById('f').onsubmit=e=>{e.preventDefault();send(t.value)};
 t.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send(t.value)}});
-chips.querySelectorAll('button').forEach(x=>x.onclick=()=>send(x.textContent));
 </script>
 </body>
 </html>
