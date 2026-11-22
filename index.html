@@ -16,7 +16,8 @@
   header h1{margin:0;font-size:18px;font-weight:600}
   header .sub{font-size:13px;opacity:.85}
   header .brand{margin-left:auto;font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.7;text-align:right}
-  #log{flex:1;overflow-y:auto;padding:18px 14px 6px;display:flex;flex-direction:column;gap:8px;scroll-behavior:smooth}
+  #log{flex:1;min-height:0;overflow-y:auto;padding:18px 14px 6px;display:flex;flex-direction:column;gap:8px;scroll-behavior:smooth}
+  #log>*{flex:none}
   .msg{max-width:84%;padding:10px 14px;border-radius:18px;white-space:pre-wrap;word-wrap:break-word;animation:in .18s ease-out}
   @keyframes in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
   .bot{background:#fff;border:1px solid var(--line);align-self:flex-start;border-bottom-left-radius:6px}
